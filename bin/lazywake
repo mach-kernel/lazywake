@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+$LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
+
+require 'rubygems'
+require 'commander/import'
+require 'lazywake'
+
+program :name, 'lazywake'
+program :version, Lazywake::VERSION.to_s
+program :description, '
+For users of `wakeonlan` that do not like remembering MAC addresses
+or subsequently typing in a second command having to do with that
+remote host.
+'
+
+command :ssh do |c|
+  c.syntax = 'lazywake ssh [options]'
+  c.summary = ''
+  c.description = ''
+  c.example 'description', 'command example'
+  c.option '--some-switch', 'Some switch that does something'
+  c.action do |args, options|
+    # Do something or c.when_called Lazywake::Commands::Ssh
+  end
+end
