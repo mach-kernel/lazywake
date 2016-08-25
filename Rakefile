@@ -21,5 +21,8 @@ task doc: :rdoc
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new
 
-task test: :spec
-task default: :spec
+task test: [:rubocop, :spec]
+task default: [:rubocop, :spec]
+
+require 'rubocop/rake_task'
+RuboCop::RakeTask.new
