@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 require 'json'
-require 'pry'
 
 module Lazywake
   module Config
@@ -13,12 +12,12 @@ module Lazywake
         die.call('Config file not found') unless File.exist?(path)
 
         @@data = begin
-          pre_data = JSON.parse(File.read(path))
-          Schema.valid?(pre_data) ? pre_data : nil
+          pre_data = JSON.parse(File.read(path)).with_indifferent_access
+          die.call('Failed config validation') unless Schema.valid?(pre_data)
+          pre_data
         rescue JSON::JSONError
           die.call('Invalid JSON in config file')
-        ensure
-          nil
+        ensure nil
         end
       end
 

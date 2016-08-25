@@ -12,7 +12,7 @@ module Lazywake
         lazywake_version: Lazywake::VERSION,
         generated_mappings: {},
         user_mappings: {}
-      }.freeze
+      }.with_indifferent_access.freeze
 
       def self.valid?(schema)
         new.valid?(schema)
@@ -30,14 +30,11 @@ module Lazywake
       # Just assert type for fields that do not have their own
       # validator
       def method_missing(key, *args)
-        # If there is anything extra, we won't throw a fit.
-        if CONFIG_SCHEMA.key?(key)
-          raise(
-            ConfigValidationError,
-            "#{key} is incorrectly defined"
-          ) if CONFIG_SCHEMA[key].class != args.first.class
-        else super
-        end
+        return super unless CONFIG_SCHEMA.key?(key)
+        raise(
+          ConfigValidationError,
+          "#{key} is incorrectly defined"
+        ) if CONFIG_SCHEMA[key].class != args.first.class
       end
 
       def respond_to_missing?(key, respond_private = false)

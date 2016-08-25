@@ -5,8 +5,12 @@ module Lazywake
       module Validators
         extend Forwardable
 
-        def_delegator :generated_mappings, :call, :data
-        def_delegator :user_mappings, :call, :data
+        def included(mod)
+          mod.instance_eval do
+            def_delegator self, :mappings, :generated_mappings
+            def_delegator self, :mappings, :user_mappings
+          end
+        end
 
         def mappings(data)
           die = ->(why) { raise(Schema::ConfigValidationError, why) }
