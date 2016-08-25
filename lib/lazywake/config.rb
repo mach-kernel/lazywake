@@ -4,6 +4,6 @@ module Lazywake
     extend ActiveSupport::Autoload
 
     autoload :Schema
-    autoload :SchemaValidators
+    autoload :Wrapper
   end
 end

@@ -14,6 +14,8 @@ or subsequently typing in a second command having to do with that
 remote host.
 '
 
+global_option '--config'
+
 command :ssh do |c|
   c.syntax = 'lazywake ssh [options]'
   c.summary = ''

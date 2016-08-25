@@ -1,10 +1,10 @@
 # frozen_string_literal: true
-require 'pry'
-
 module Lazywake
   module Config
     class Schema
-      include SchemaValidators
+      extend ActiveSupport::Autoload
+      autoload :Validators
+      include Validators
 
       class ConfigValidationError < StandardError; end
 
@@ -14,15 +14,22 @@ module Lazywake
         user_mappings: {}
       }.freeze
 
+      def self.valid?(schema)
+        new.valid?(schema)
+      end
+
       def valid?(schema)
-        raise ConfigValidationError, 'Invalid JSON' unless schema.is_a?(Hash)
+        raise(
+          ConfigValidationError, 'Invalid Base Object'
+        ) unless schema.is_a?(Hash)
+
         schema.each_pair { |k, v| send(k, v) }
         true
       end
 
       # Just assert type for fields that do not have their own
       # validator
-      def method_missing(key, *args, &block)
+      def method_missing(key, *args)
         # If there is anything extra, we won't throw a fit.
         if CONFIG_SCHEMA.key?(key)
           raise(

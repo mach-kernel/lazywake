@@ -1,9 +1,6 @@
 # frozen_string_literal: true
-require 'lazywake'
-require 'json'
-
 describe Lazywake::Config::Schema do
-  context '#valid?' do
+  context '.valid?' do
     let(:valid_config) do
       {
         lazywake_version: Lazywake::VERSION,
