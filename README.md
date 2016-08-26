@@ -4,7 +4,7 @@
 * [Documentation](http://rubydoc.info/gems/lazywake/frames)
 * [Email](mailto:)
 
-[![Code Climate GPA](https://codeclimate.com/github//lazywake/badges/gpa.svg)](https://codeclimate.com/github//lazywake)
+[![Code Climate GPA](https://codeclimate.com/github/mach-kernel/lazywake/badges/gpa.svg)](https://codeclimate.com/github/mach-kernel/lazywake)
 
 ## Description
 
