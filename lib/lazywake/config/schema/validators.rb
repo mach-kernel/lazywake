@@ -5,13 +5,6 @@ module Lazywake
       module Validators
         extend Forwardable
 
-        def included(mod)
-          mod.instance_eval do
-            def_delegator self, :mappings, :generated_mappings
-            def_delegator self, :mappings, :user_mappings
-          end
-        end
-
         def mappings(data)
           die = ->(why) { raise(Schema::ConfigValidationError, why) }
           die.call('Mappings Not Hash') unless data.is_a?(Hash)
@@ -22,6 +15,8 @@ module Lazywake
 
           die.call('Mappings Invalid MAC') unless invalid_entries.blank?
         end
+        alias generated_mappings mappings
+        alias user_mappings mappings
       end
     end
   end

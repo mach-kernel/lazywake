@@ -14,17 +14,15 @@ module Lazywake
         user_mappings: {}
       }.with_indifferent_access.freeze
 
-      def self.valid?(schema)
-        new.valid?(schema)
+      def self.validate(schema)
+        new.validate(schema)
       end
 
-      def valid?(schema)
+      def validate(schema)
         raise(
           ConfigValidationError, 'Invalid Base Object'
         ) unless schema.is_a?(Hash)
-
         schema.each_pair { |k, v| send(k, v) }
-        true
       end
 
       # Just assert type for fields that do not have their own

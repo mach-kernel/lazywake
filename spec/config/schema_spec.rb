@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 describe Lazywake::Config::Schema do
-  context '.valid?' do
+  context '.validate' do
     let(:valid_config) do
       {
         lazywake_version: Lazywake::VERSION,
@@ -21,11 +21,11 @@ describe Lazywake::Config::Schema do
     end
 
     it 'passes a valid config file' do
-      expect(subject.valid?(valid_config)).to eql true
+      expect { subject.validate(valid_config) }.to_not raise_error
     end
 
     it 'fails an invalid config file' do
-      expect { subject.valid?(invalid_config) }
+      expect { subject.validate(invalid_config) }
         .to raise_error(Lazywake::Config::Schema::ConfigValidationError)
     end
   end
