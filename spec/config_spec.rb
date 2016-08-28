@@ -3,7 +3,7 @@ describe Lazywake::Config do
   let(:config) do
     {
       lazywake_version: Lazywake::VERSION,
-      mappings: {
+      generated_mappings: {
         hostname: '00:00:00:00:00:00'
       }
     }.to_json
@@ -13,11 +13,22 @@ describe Lazywake::Config do
 
   before { FileUtils.rm_rf(path) }
 
-  context 'delegations' do
-    it 'can load the file' do
+  context 'retrieving attributes' do
+    it 'can access schema objects by key' do
       File.open(path, 'w+') { |f| f.write(config) }
       described_class.load(path)
       expect(described_class.lazywake_version).to eql Lazywake::VERSION
+    end
+  end
+
+  context 'settings attributes' do
+    it 'changes schema objects by key' do
+      File.open(path, 'w+') { |f| f.write(config) }
+      described_class.load(path)
+
+      described_class.generated_mappings[:localtoast] = '11:11:11:11:11:11'
+      expect(JSON.parse(File.read(path)).fetch('generated_mappings'))
+        .to eql described_class.generated_mappings
     end
   end
 end
