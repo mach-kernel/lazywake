@@ -1,0 +1,6 @@
+deployment:
+  automerge:
+    owner: mach-kernel
+    branch: /feature-.*/
+    commands:
+      - ./ci_merge.sh
