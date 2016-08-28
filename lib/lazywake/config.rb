@@ -9,6 +9,7 @@ module Lazywake
     autoload :Wrapper
 
     def_delegator Wrapper, :load, 'self.load'
+    def_delegator Wrapper, :save, 'self.save'
     def_delegator Wrapper, :respond_to_missing, 'self.respond_to_missing'
 
     def self.method_missing(key, *args)

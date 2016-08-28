@@ -13,12 +13,17 @@ module Lazywake
 
         @@data = begin
           pre_data = JSON.parse(File.read(path)).with_indifferent_access
-          die.call('Failed config validation') unless Schema.valid?(pre_data)
+          Schema.validate(pre_data)
           pre_data
         rescue JSON::JSONError
           die.call('Invalid JSON in config file')
         ensure nil
         end
+      end
+
+      def self.save(path)
+        Schema.validate(@@data)
+        File.open(path, 'w+') { |f| f.write(@@data.to_json) }
       end
 
       # TODO: Doing this to clean for tests, maybe useless?

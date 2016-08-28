@@ -21,12 +21,14 @@ describe Lazywake::Config do
     end
   end
 
-  context 'settings attributes' do
+  context 'setting attributes' do
     it 'changes schema objects by key' do
       File.open(path, 'w+') { |f| f.write(config) }
       described_class.load(path)
 
       described_class.generated_mappings[:localtoast] = '11:11:11:11:11:11'
+      described_class.save(path)
+
       expect(JSON.parse(File.read(path)).fetch('generated_mappings'))
         .to eql described_class.generated_mappings
     end
