@@ -6,6 +6,6 @@ module Lazywake
   extend ActiveSupport::Autoload
 
   autoload :Config
-  autoload :Plugins
+  autoload :Network
   autoload :VERSION
 end
