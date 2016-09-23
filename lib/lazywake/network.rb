@@ -4,5 +4,6 @@ module Lazywake
     extend ActiveSupport::Autoload
 
     autoload :ARP
+    autoload :MagicPacket
   end
 end
