@@ -14,7 +14,7 @@ module Lazywake
 
       def method_missing(sym, *args)
         if sym == :opts
-          return optsify(
+          return opts_accessor(
             args.first, args.second
           ) if args.first.is_a?(Symbol) && DEFAULT_OPTS.key?(args.first)
         end
@@ -26,7 +26,7 @@ module Lazywake
       end
 
       def perform
-        await_wake if respond_to?(:await_wake)
+        before_hooks
         replace_with_command
       end
 
@@ -35,6 +35,11 @@ module Lazywake
       end
 
       private
+
+      def before_hooks
+        await_wake if respond_to?(:await_wake)
+        user_before if respond_to?(:user_before)
+      end
 
       def replace_with_command
         Kernel.exec(path, *@opts.args)
@@ -45,7 +50,7 @@ module Lazywake
         `which #{command}`.rstrip
       end
 
-      def optsify(key, new_opts)
+      def opts_accessor(key, new_opts)
         return @opts.send(key) if new_opts.blank?
         @opts.send(:"#{key}=", new_opts)
       end

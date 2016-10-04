@@ -22,17 +22,27 @@ describe Lazywake::Command::Default do
     end
   end
 
-  context '#perform' do
-    let(:lifecycle_commands) { %i(await_wake replace_with_command) }
-
+  context 'lifecycle methods' do
     before do
       lifecycle_commands.each do |cmd|
         expect_any_instance_of(described_class).to receive(cmd).and_return true
       end
     end
 
-    it 'has the correct lifecycle' do
-      subject.perform
+    context '#before_hooks' do
+      let(:lifecycle_commands) { %i(await_wake user_before) }
+
+      it 'has the correct lifecycle' do
+        subject.send(:before_hooks)
+      end
+    end
+
+    context '#perform' do
+      let(:lifecycle_commands) { %i(before_hooks replace_with_command) }
+
+      it 'has the correct lifecycle' do
+        subject.perform
+      end
     end
   end
 
