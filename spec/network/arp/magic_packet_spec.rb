@@ -20,7 +20,7 @@ describe Lazywake::Network::MagicPacket do
   context '#hw_address_bytes' do
     let(:mac) { '00:FF:22:33:44:55' }
 
-    it 'should cast the mac addre$ss properly' do
+    it 'should cast the mac address properly' do
       expect(subject.send(:hw_address_bytes, mac)).to eql(
         [0, 255, 34, 51, 68, 85]
       )
