@@ -1,6 +1,8 @@
 # lazywake
 [![Code Climate GPA](https://codeclimate.com/github/mach-kernel/lazywake/badges/gpa.svg)](https://codeclimate.com/github/mach-kernel/lazywake)
 [![CircleCI](https://circleci.com/gh/mach-kernel/lazywake/tree/master.svg?style=shield)](https://circleci.com/gh/mach-kernel/lazywake/tree/master)
+[![Test Coverage](https://codeclimate.com/github/mach-kernel/lazywake/badges/coverage.svg)](https://codeclimate.com/github/mach-kernel/lazywake/coverage)
+[![Issue Count](https://codeclimate.com/github/mach-kernel/lazywake/badges/issue_count.svg)](https://codeclimate.com/github/mach-kernel/lazywake)
 * [Homepage](https://rubygems.org/gems/lazywake)
 * [Documentation](http://rubydoc.info/gems/lazywake/frames)
 
