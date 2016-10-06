@@ -1,26 +1,8 @@
 # frozen_string_literal: true
 describe Lazywake::Command::Default do
-  let(:args) { %w(ls ~) }
+  let(:args) { %w(look at some args ~) }
 
   subject { described_class.new(args) }
-
-  let(:default_opts) do
-    { await_for: 12 }
-  end
-
-  before { stub_const("#{described_class}::DEFAULT_OPTS", default_opts) }
-
-  context '#opts' do
-    it 'sets things' do
-      subject.opts(:await_for, 25)
-      expect(subject.opts(:await_for)).to eql 25
-    end
-
-    it 'gets things' do
-      k, v = default_opts.first
-      expect(subject.send(:opts, k)).to eql v
-    end
-  end
 
   context 'lifecycle methods' do
     before do
@@ -30,7 +12,15 @@ describe Lazywake::Command::Default do
     end
 
     context '#before_hooks' do
-      let(:lifecycle_commands) { %i(await_wake user_before) }
+      let(:lifecycle_commands) { %i(await_wake) }
+
+      before do
+        subject.class.opts[:map_proc] = proc do |x|
+          # no-op
+        end
+
+        subject.class.opts[:await_for] = 10
+      end
 
       it 'has the correct lifecycle' do
         subject.send(:before_hooks)
@@ -46,9 +36,23 @@ describe Lazywake::Command::Default do
     end
   end
 
+  context '#perform' do
+    context 'with a map_proc' do
+      before do
+        allow(subject).to receive(:replace_with_command).and_return true
+        subject.class.opts[:map_proc] = proc { |x| x[0] = x[0].upcase }
+        subject.perform
+      end
+
+      it 'upcases the first arg' do
+        expect(subject.send(:args).first).to eql args.first.upcase
+      end
+    end
+  end
+
   context '#replace_with_command' do
     before do
-      allow(subject.opts_struct).to receive(:args).and_call_original
+      allow(subject).to receive(:args).and_call_original
       expect(Kernel).to receive(:exec) do |*args|
         expect(args.first).to eql `which #{args.first}`.rstrip
         expect(args.second).to be_a String

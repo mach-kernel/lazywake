@@ -50,9 +50,9 @@ Lazywake::Command.describe do
   await_for 10
 
   # Before we replace the process,
-  # you can do something
-  before do
-    args[0] = args[0].upcase!
+  # you can do whatever manipulations you'd like on the args
+  map_proc do |args|
+    args[0].upcase!
   end
 end
 ```

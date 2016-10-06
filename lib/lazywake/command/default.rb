@@ -3,26 +3,15 @@
 module Lazywake
   module Command
     class Default
-      DEFAULT_OPTS = {
-        await_for: 0
-      }.freeze
+      def self.opts
+        @opts ||= {
+          await_for: 0,
+          map_proc: nil
+        }
+      end
 
       def initialize(args)
-        @opts = OpenStruct.new(DEFAULT_OPTS)
-        @opts.args = args
-      end
-
-      def method_missing(sym, *args)
-        if sym == :opts
-          return opts_accessor(
-            args.first, args.second
-          ) if args.first.is_a?(Symbol) && DEFAULT_OPTS.key?(args.first)
-        end
-        super
-      end
-
-      def opts_struct
-        @opts
+        @args = args
       end
 
       def perform
@@ -30,29 +19,37 @@ module Lazywake
         replace_with_command
       end
 
-      def respond_to_missing?(sym, include_private = false)
-        sym == :opts ? true : super
-      end
-
       private
 
+      attr_reader :args
+
+      def await_wake
+        while self.class.opts[:await_for].positive?
+          return if remote_alive?
+          sleep 1
+          self.class.opts[:await_for] -= 1
+        end
+      end
+
       def before_hooks
-        await_wake if respond_to?(:await_wake)
-        user_before if respond_to?(:user_before)
+        await_wake if self.class.opts[:await_for].positive?
+        @args = args.tap(
+          &self.class.opts[:map_proc]
+        ) if self.class.opts[:map_proc].is_a?(Proc)
+      end
+
+      def remote_alive?
+        # TODO: implement in sep. feature branch
+        true
       end
 
       def replace_with_command
-        Kernel.exec(path, *@opts.args)
+        Kernel.exec(path, *args)
       end
 
       def path
-        command = respond_to?(:command_name) ? command_name : @opts.args.shift
+        command = respond_to?(:command_name) ? command_name : args.shift
         `which #{command}`.rstrip
-      end
-
-      def opts_accessor(key, new_opts)
-        return @opts.send(key) if new_opts.blank?
-        @opts.send(:"#{key}=", new_opts)
       end
     end
   end
