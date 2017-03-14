@@ -1,7 +1,7 @@
 # frozen_string_literal: true
-require 'codeclimate-test-reporter'
 require 'lazywake'
 require 'pry'
 require 'rspec'
+require 'simplecov'
 
-CodeClimate::TestReporter.start
+SimpleCov.start

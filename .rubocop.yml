@@ -1,7 +1,13 @@
 AllCops:
   DisplayCopNames: true
+  Exclude:
+    - ./spec/**/*.rb
+    - ./*.gemspec
 
 Style/Documentation:
+  Enabled: false
+
+Style/MultilineIfModifier:
   Enabled: false
 
 Lint/Debugger:

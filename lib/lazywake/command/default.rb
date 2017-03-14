@@ -33,9 +33,8 @@ module Lazywake
 
       def before_hooks
         await_wake if self.class.opts[:await_for].positive?
-        @args = args.tap(
-          &self.class.opts[:map_proc]
-        ) if self.class.opts[:map_proc].is_a?(Proc)
+        return unless self.class.opts[:map_proc].is_a?(Proc)
+        @args = args.tap(&self.class.opts[:map_proc])
       end
 
       def remote_alive?

@@ -4,7 +4,7 @@ module Lazywake
     class Schema
       extend ActiveSupport::Autoload
       autoload :Validators
-      
+
       include Validators
 
       class ConfigValidationError < StandardError; end

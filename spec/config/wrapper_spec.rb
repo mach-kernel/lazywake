@@ -12,7 +12,7 @@ describe Lazywake::Config::Wrapper do
   end
 
   let(:path) { File.join(Dir.home, '.lazywake') }
-  
+
   before do
     described_class.reset
     expect(File).to receive(:exist?).with(path).and_return(true)
@@ -47,7 +47,7 @@ describe Lazywake::Config::Wrapper do
 
       expect_any_instance_of(File).to receive(:write)
         .with(Lazywake::Config.data.to_json)
-        
+
       described_class.save(path)
     end
 

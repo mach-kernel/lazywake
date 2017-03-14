@@ -11,7 +11,7 @@ describe Lazywake::Config do
 
   let(:path) { File.join(Dir.home, '.lazywake') }
 
-  before do 
+  before do
     expect(File).to receive(:exist?).with(path).and_return(true)
     expect(File).to receive(:read).with(path).and_return(config)
   end
