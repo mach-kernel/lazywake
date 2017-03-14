@@ -8,9 +8,9 @@ module Lazywake
     autoload :Schema
     autoload :Wrapper
 
-    def_delegator Wrapper, :load, 'self.load'
-    def_delegator Wrapper, :save, 'self.save'
-    def_delegator Wrapper, :respond_to_missing, 'self.respond_to_missing'
+    %i(save load respond_to_missing).each do |m|
+      def_delegator Wrapper, m, "self.#{m}"
+    end
 
     def self.method_missing(key, *args)
       return super unless Schema::CONFIG_SCHEMA.key?(key)

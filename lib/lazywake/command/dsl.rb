@@ -36,7 +36,6 @@ module Lazywake
       end
 
       def method_missing(sym, *args)
-        binding.pry
         return class_path.opts[sym] = args.first if class_path.opts.key?(sym)
         super
       end

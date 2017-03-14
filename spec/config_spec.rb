@@ -11,11 +11,13 @@ describe Lazywake::Config do
 
   let(:path) { File.join(Dir.home, '.lazywake') }
 
-  before { FileUtils.rm_rf(path) }
+  before do 
+    expect(File).to receive(:exist?).with(path).and_return(true)
+    expect(File).to receive(:read).with(path).and_return(config)
+  end
 
   context 'retrieving attributes' do
     it 'can access schema objects by key' do
-      File.open(path, 'w+') { |f| f.write(config) }
       described_class.load(path)
       expect(described_class.lazywake_version).to eql Lazywake::VERSION
     end
@@ -23,14 +25,16 @@ describe Lazywake::Config do
 
   context 'setting attributes' do
     it 'changes schema objects by key' do
-      File.open(path, 'w+') { |f| f.write(config) }
       described_class.load(path)
-
       described_class.generated_mappings[:localtoast] = '11:11:11:11:11:11'
-      described_class.save(path)
+      expect(described_class.generated_mappings[:localtoast]).to eql(
+        '11:11:11:11:11:11'
+      )
 
-      expect(JSON.parse(File.read(path)).fetch('generated_mappings'))
-        .to eql described_class.generated_mappings
+      expect_any_instance_of(File)
+        .to receive(:write).with(described_class.data.to_json)
+
+      described_class.save(path)
     end
   end
 end
