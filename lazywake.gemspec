@@ -32,18 +32,20 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ['lib']
 
-  gem.add_development_dependency 'rake', '~> 10.0'
-  gem.add_development_dependency 'bundler', '~> 1.10'
-  gem.add_development_dependency 'codeclimate-test-reporter', '~> 0.1'
-  gem.add_development_dependency 'rdoc', '~> 4.0'
-  gem.add_development_dependency 'rspec', '~> 3.0'
-  gem.add_development_dependency 'rubygems-tasks', '~> 0.2'
-  gem.add_development_dependency 'pry', '~> 0.10.4'
-  gem.add_development_dependency 'rubocop', '0.42.0'
-  gem.add_development_dependency 'guard', '2.14.0'
-  gem.add_development_dependency 'guard-rubocop', '1.2.0'
-  gem.add_development_dependency 'guard-rspec', '4.7.3'
+  gem.add_development_dependency 'simplecov'
+  gem.add_development_dependency 'bundler'
+  gem.add_development_dependency 'codeclimate-test-reporter'
+  gem.add_development_dependency 'guard'
+  gem.add_development_dependency 'guard-rspec'
+  gem.add_development_dependency 'guard-rubocop'
+  gem.add_development_dependency 'pry'
+  gem.add_development_dependency 'rake'
+  gem.add_development_dependency 'rdoc'
+  gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'rubocop'
+  gem.add_development_dependency 'rubygems-tasks'
 
-  gem.add_dependency 'commander', '4.4.0'
-  gem.add_dependency 'activesupport', '5.0.0.1'
+  gem.add_dependency 'commander'
+  gem.add_dependency 'activesupport'
+  gem.add_dependency 'net-ping'
 end
