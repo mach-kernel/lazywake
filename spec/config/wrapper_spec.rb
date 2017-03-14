@@ -12,8 +12,11 @@ describe Lazywake::Config::Wrapper do
   end
 
   let(:path) { File.join(Dir.home, '.lazywake') }
-
-  before { described_class.reset }
+  
+  before do
+    described_class.reset
+    expect(File).to receive(:exist?).with(path).and_return(true)
+  end
 
   context '.load' do
     let(:invalid_config_file) { 'alphabet soup' }
