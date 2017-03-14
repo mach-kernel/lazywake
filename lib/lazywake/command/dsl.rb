@@ -12,7 +12,7 @@ module Lazywake
 
       # I think I found another Rubocop bug!
       # https://github.com/bbatsov/rubocop/issues/2707
-      # 
+      #
       # rubocop:disable Lint/NestedMethodDefinition
       def additional_methods
         @additional_methods ||= proc do

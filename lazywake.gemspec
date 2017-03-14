@@ -46,4 +46,5 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'commander', '4.4.0'
   gem.add_dependency 'activesupport', '5.0.0.1'
+  gem.add_dependency 'net-ping'
 end
