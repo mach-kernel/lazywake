@@ -16,6 +16,8 @@ remote host.
 
 global_option '--config'
 
+binding.pry
+
 command :ssh do |c|
   c.syntax = 'lazywake ssh [options]'
   c.summary = ''

@@ -14,6 +14,7 @@ module Lazywake
 
     def self.method_missing(key, *args)
       return super unless Schema::CONFIG_SCHEMA.key?(key)
+      ARP.update_entries if key.include?('mappings')
       Wrapper.data.fetch(key)
     end
   end

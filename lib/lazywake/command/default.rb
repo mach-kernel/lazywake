@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'net/ping'
 
 module Lazywake
   module Command
@@ -37,18 +38,26 @@ module Lazywake
         @args = args.tap(&self.class.opts[:map_proc])
       end
 
-      def remote_alive?
-        # TODO: implement in sep. feature branch
-        true
-      end
-
-      def replace_with_command
-        Kernel.exec(path, *args)
+      def host
+        @host ||= begin
+          h = Config.generated_mappings.merge(Config.user_mappings)
+            .fetch(args.first, nil)
+          raise 'Host not found' unless h.present?
+          h
+        end
       end
 
       def path
         command = respond_to?(:command_name) ? command_name : args.shift
         `which #{command}`.rstrip
+      end
+
+      def remote_alive?
+        Net::Ping::External.new(args.first).tap { |n| return n.ping? }
+      end
+
+      def replace_with_command
+        Kernel.exec(path, *args)
       end
     end
   end
