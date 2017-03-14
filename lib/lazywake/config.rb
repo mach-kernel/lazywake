@@ -8,7 +8,7 @@ module Lazywake
     autoload :Schema
     autoload :Wrapper
 
-    %i(save load respond_to_missing).each do |m|
+    %i(save load respond_to_missing data).each do |m|
       def_delegator Wrapper, m, "self.#{m}"
     end
 
